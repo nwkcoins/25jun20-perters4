@@ -1,0 +1,76 @@
+Terms of Use
+
+By downloading and using HyperTrader, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using HyperTrader. The materials contained in this product are protected by applicable copyright and trademark law. You also agree to our privacy policy as listed on our website at https://hyperlinq.io/privacy
+
+Use License
+
+Permission is granted to temporarily download and use one copy of HyperTrader for personal, non-commercial transitory use only. This is the grant of a license, not a transfer of title, and under this license you may not: modify HyperTrader; use HyperTrader for any commercial purpose, or for any public display (commercial or non-commercial); attempt to decompile or reverse engineer any software produced by HyperLinq Inc.; remove any copyright or other proprietary notations from the materials; or transfer your account to another user(s). This license shall automatically terminate if you violate any of these restrictions and may be terminated by HyperLinq Inc. at any time. Upon the termination of this license, you must destroy any downloaded or installed HyperTrader app in your possession.
+
+Disclaimer
+
+XXXXX is provided on an 'as is' basis. XXXXX. makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, HyperLinq Inc. does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of HyperTrader.
+
+Limitations
+
+In no event shall HyperLinq Inc. or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use HyperTrader, even if XXXXX. or a XXXXX authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+
+Accuracy of materials
+
+The materials appearing on HyperTrader could include technical, typographical, or photographic errors. XXXXX. does not warrant that any of the materials are accurate, complete or current. XXXXX may make changes to HyperTrader at any time without notice. However XXXXX does not make any commitment to update HyperTrader with latest features or exchange integrations.
+
+Links
+
+XXXXX has not reviewed all of the exchanges or sites linked to HyperTrader and is not responsible for the contents of any such linked data. The inclusion of any data does not imply endorsement by XXXXX Use of any such linked data is at the user's own risk.
+
+Modifications
+
+XXXXX may revise these terms of service for HyperTrader at any time without notice. By using HyperTrader you are agreeing to be bound by the then current version of these terms of service situated at https://hyperlinq.io/terms
+
+Governing Law
+
+These terms and conditions are governed by and construed in accordance with the laws of State of Delaware, USA and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location. These HyperLinq Terms and Conditions ("Application Terms") are a legal agreement between you (either as an individual or on behalf of an entity) and XXXXX regarding your use of HyperLinq's applications, such as HyperTrader, HyperFolio, HyperData etc. and associated documentation ("Software"). These Application Terms apply to the executable code version of the Software. Source code for the Software is not available separately and HyperLinq is not liable to send you the source code in any form. Source code is an intellectual property of HyperLinq. If you do not agree to all of the terms in these Application Terms, do not download, install, use, or copy the Software.
+
+Connecting to Digital Assets Exchanges
+
+If you configure the Software to work with one or more accounts on various digital assets exchanges, you are responsible for the safety of your exchange API keys as HyperLinq doesn't transmit or store the API on its servers or devices. Connection between your computer and the exchanges is peer to peer and 2046bit encrypted. HyperLinq only provides tools to enable you to connect and exchange requests and responses. At no point HyperLinq acts as an intermediary between your computer and the exchanges. XXXXX takes no responsibilty of any data breach on your personal computer running XXXXX software or any data breach on the exchange servers or their devices. Unless otherwise agreed to in writing with XXXXX, your agreement with XXXXX will always include, at a minimum, these Application Terms.
+
+Privacy
+
+The Software may collect personal information including but not limited to name, email and other identifiable contact information. These information is only used to service you with application support and billing activities. We do not sell or distribute the data to any third party. Software may collect crash reports, bug reports and analytics data for the sole purpose of improving the application design, behavior and performance. You may control what information the Software collects in the settings panel. Software will not collect any identifiable trading activity information. It may collect non-identifiable trading behavior only for analytics purposes. If software collects personally identifiable data, it is governed by XXXXX Privacy Policies. By agreeing to the terms and conditions on this page, you agree to the privacy policies as well.
+
+Auto-update Service
+
+The Software may include an auto-update service ("Service"). If you choose to use the Service or you download Software that automatically enables the Service, XXXXX will automatically update the Software when a new version is available. This is done to improve the user experience, fix bugs, and apply security patches. It is important that all XXXXX software on user's computers are autoupdated.
+
+Disclaimers and Limitations of Liability
+
+THE SERVICE IS PROVIDED ON AN "AS IS" BASIS, AND NO WARRANTY, EITHER EXPRESS OR IMPLIED, IS GIVEN. YOUR USE OF THE SERVICE IS AT YOUR SOLE RISK. XXXXX does not warrant that -
+
+- the Service will meet your specific requirements;
+- the Service is fully compatible with any particular platform;
+- your use of the Service will be uninterrupted, timely, secure, or error-free;
+- the results that may be obtained from the use of the Service will be accurate or reliable;
+- the quality of any products, services, information, or other material purchased or obtained by you through the Service will meet your expectations; or
+- any errors in the Service will be corrected.
+
+
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT XXXXX SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA OR OTHER INTANGIBLE LOSSES (EVEN IF XXXXX HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES) RELATED TO THE SERVICE, including, for example:
+
+- the use or the inability to use the Service;
+- the cost of procurement of substitute goods and services resulting from any goods, data, information or services purchased or obtained or messages received or transactions entered into through or from the Service;
+- unauthorized access to or alteration of your transmissions or data;
+- statements or conduct of any third-party on the Service;
+- or any other matter relating to the Service. XXXXX reserves the right at any time and from time to time to modify or discontinue, temporarily or permanently, the Service (or any part thereof) with or without notice. XXXXX shall not be liable to you or to any third-party for any price change, suspension or discontinuance of the Service.
+
+
+Miscellanea
+
+No Waiver - The failure of XXXXX to exercise or enforce any right or provision of these Application Terms shall not constitute a waiver of such right or provision.
+
+Entire Agreement - These Application Terms, together with any applicable Privacy Notices, constitutes the entire agreement between you and XXXXX and governs your use of the Software, superseding any prior agreements between you and XXXXX (including, but not limited to, any prior versions of the Application Terms).
+
+Governing Law - You agree that these Application Terms and your use of the Software are governed under State of Delaware law and any dispute related to the Software must be brought in a tribunal of competent jurisdiction located in the State of Delaware.
+
+Third-Party Packages - The Software supports third-party "Packages" which may modify, add, remove, or alter the functionality of the Software. These Packages are not covered by these Application Terms and may include their own license which governs your use of that particular package.
+
+No Modifications; Complete Agreement - These Application Terms may only be modified by a written amendment signed by an authorized representative of XXXXX, or by the posting by XXXXX of a revised version. These Application Terms, together with any applicable Licenses and Notices and XXXXX's Privacy Statement, represent the complete and exclusive statement of the agreement between you and us. These Application Terms supersede any proposal or prior agreement oral or written, and any other communications between you and XXXXX relating to the subject matter of these terms.

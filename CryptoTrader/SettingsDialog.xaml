@@ -1,0 +1,551 @@
+﻿<Controls:MetroWindow x:Class="CryptoTrader.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:CryptoTrader"
+        
+        Title="Settings" Width="520" Height="590" Icon="setting.ico">
+    <Grid>
+        <TabControl Margin="10" BorderBrush="Gainsboro">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="General">
+                <Grid Margin="0,0,1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Exchange (orderbook)" Grid.Row="0" Grid.Column="0" Margin="0,5,10,20" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1"   Margin="0,0,0,10" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <ComboBox Name="dropExchange" Margin="0,0,10,0" Width="150" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Exchanges}" BorderBrush="Black" Grid.ColumnSpan="2" />
+                        <CheckBox Name="cbDataViaOwnAPI" IsChecked="{Binding DataViaOwnAPI, Mode=TwoWay}" Margin="10,0,0,0" BorderBrush="Black">Data via own API</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Currencies (coinpair,coinpair,..)" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <TextBox Name="tbWhitelistCoinpairs" Grid.Row="1" Grid.Column="1" Text="{Binding WhitelistCoinpairs, Mode=TwoWay}"  Margin="0,0,0,10"   Width="300"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="and containing" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1"   Margin="0,0,0,10" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <CheckBox Name="cbUSD" IsChecked="{Binding CurrencyUSDT, Mode=TwoWay}" BorderBrush="Black">USDT</CheckBox>
+                        <CheckBox Name="cbBTC" IsChecked="{Binding CurrencyBTC, Mode=TwoWay}" Margin="10,0,0,0" BorderBrush="Black">BTC</CheckBox>
+                        <CheckBox Name="cbETH" IsChecked="{Binding CurrencyETH, Mode=TwoWay}" Margin="10,0,0,0" BorderBrush="Black">ETH</CheckBox>
+                        <CheckBox Name="cbBNB" IsChecked="{Binding CurrencyBNB, Mode=TwoWay}" Margin="10,0,0,0" BorderBrush="Black">BNB</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Blacklist (coinpair,coinpair,..)" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <TextBox Name="tbBlacklistCoinpairs" Grid.Row="3" Grid.Column="1" Text="{Binding BlacklistCoinpairs, Mode=TwoWay}"  Margin="0,0,0,10"   Width="300"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Min 24hr Volume" Grid.Row="4" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <TextBox Name="tbVolume"  Grid.Row="4" Grid.Column="1" Text="{Binding Volume, Mode=TwoWay}" PreviewTextInput="IntnumberValidationTextBox" Margin="0,0,0,10"   Width="100"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Low Sat" Grid.Row="5" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <TextBox Name="tbLowSatBTC"  Grid.Row="5" Grid.Column="1" Text="{Binding LowSatBTC, Mode=TwoWay}" PreviewTextInput="DecimalValidationTextBox" Margin="0,0,0,10"   Width="100"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Max flat candles" Grid.Row="6" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <TextBox Text="{Binding MaxFlatCandles, Mode=TwoWay}" PreviewTextInput="IntnumberValidationTextBox" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                        <TextBlock Text="  /  " VerticalAlignment="Center" />
+                        <TextBox Text="{Binding MaxFlatCandleCount, Mode=TwoWay}" PreviewTextInput="IntnumberValidationTextBox" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                    </StackPanel>
+
+                    <TextBlock Text="Max. panic" Grid.Row="7" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1"  Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <TextBox Text="{Binding MaxPanic, Mode=TwoWay}" PreviewTextInput="IntnumberValidationTextBox" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                        <TextBlock Text=" %" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock Text="Active Strategy: " Grid.Row="8" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1"   Margin="0,0,0,10" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <CheckBox Name="cbBottumUp" IsChecked="{Binding ChBottumUp, Mode=TwoWay}" Margin="1,0,0,0"  BorderBrush="Black" Click="cbBottumUp_Click">Bottom-up</CheckBox>
+                        <CheckBox Name="cbMiddleUp" IsChecked="{Binding ChMiddleUP, Mode=TwoWay}" Margin="10,0,0,0"  BorderBrush="Black" Click="cbMiddleUp_Click">Middle-up</CheckBox>
+                        <CheckBox Name="cbFamily" IsChecked="{Binding ChRSIFamily, Mode=TwoWay}" Margin="10,0,0,0"  BorderBrush="Black" Click="cbFamily_Click" Visibility="Visible">Family</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Auto Trade" Grid.Row="9" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="1"   Margin="0,0,0,10" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <CheckBox Name="cbAutoTrade" IsChecked="{Binding AutoTrade, Mode=TwoWay}" Margin="0,0,37,10"  BorderBrush="Black">Active</CheckBox>
+                        <CheckBox Name="cbTradeExchangeDirect" IsChecked="{Binding TradeExchangeDirect, Mode=TwoWay}" Margin="0,0,37,10" BorderBrush="Black">Exchange direct</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Play sounds" Grid.Row="10" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="1"   Margin="0,0,0,10" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <CheckBox Name="cbPlaySounds" IsChecked="{Binding PlaySounds, Mode=TwoWay}" Margin="1,0,0,0" BorderBrush="Black">Active</CheckBox>
+                        <CheckBox Name="cbAllowShort" IsChecked="{Binding AllowShort, Mode=TwoWay}" Margin="38,0,0,0" Visibility="Hidden" BorderBrush="Black">Allow Short</CheckBox>
+                        <CheckBox Name="cbAllowLong" IsChecked="{Binding AllowLong, Mode=TwoWay}" Margin="10,0,0,0" Visibility="Hidden" BorderBrush="Black">Allow Long</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Browser location" Grid.Row="11" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                    <TextBox Name="tbBrowserLocation" Grid.Row="11" Grid.Column="1" Text="{Binding BrowserLocation, Mode=TwoWay}"  Margin="0,0,0,10"   Width="300"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Strategy" >
+                <Grid>
+                    <TabControl Margin="10" BorderBrush="Gainsboro">
+                        <TabControl.Resources>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem Header="General">
+                            <Grid Margin="0,0,1,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="155"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Nr of candles/pair from API" Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.ColumnSpan="2" >
+                                    <TextBox Name="tbAPIGetNrOfCandles"  Text="{Binding APIGetNrOfCandles, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="(At least 36)" Margin="5,5,10,20"  VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <TextBlock Text="Max candles 1st buy" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <TextBox Name="tbMaxCandles1stBuy"  Grid.Row="1" Grid.Column="1" Text="{Binding MaxCandles1stBuy, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                                <TextBlock Text="Autoclose not filled after" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                                    <TextBox Name="tbAutocloseAfterCandles"  Text="{Binding AutocloseAfterCandles, Mode=TwoWay}" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text="candles" Margin="5,0,0,0"  VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                                    <TextBox Name="tbAutocloseAfterHr"  Text="{Binding AutocloseAfterHr, Mode=TwoWay}" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text="Hr" Margin="5,0,0,0"  VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <TextBlock Text="Min MC for Signal" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <TextBox Name="tbMinMC4Signal"  Grid.Row="3" Grid.Column="1" Text="{Binding MinMC4Signal, Mode=TwoWay}"  Margin="0,0,0,10" Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black"  Grid.ColumnSpan="2" />
+                                <TextBlock Text="1 Hr" Grid.Row="3" Grid.Column="1" Margin="80.8,4.6,4.6,20.2"  VerticalAlignment="Center" />
+                                <TextBox Name="tbMinMC4Hr4Signal"  Grid.Row="3" Grid.Column="2" Text="{Binding MinMC4Hr4Signal, Mode=TwoWay}"  Margin="0,0,0,10" Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black"  Grid.ColumnSpan="2" />
+                                <TextBlock Text="4 Hr" Grid.Row="3" Grid.Column="2" Margin="80.8,4.6,10,20.2"  VerticalAlignment="Center" />
+                                <TextBlock Text="Only 1st buy" Grid.Row="4" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbOnly1stBuy" IsChecked="{Binding Only1stBuy, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black">Active</CheckBox>
+
+                                <TextBlock Text="Enable Confirm dialogs" Grid.Row="5" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbEnableConfirmDialogs" IsChecked="{Binding EnableConfirmDialogs, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black">Enabled</CheckBox>
+
+                                <TextBlock Text="Delete notusefull DB records" Grid.Row="6" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbDeleteNotusefullStatesDBRecords" IsChecked="{Binding DeleteNotusefullStatesDBRecords, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black">States</CheckBox>
+                                <CheckBox Name="cbDeleteNotusefullActionsDBRecords" IsChecked="{Binding DeleteNotusefullActionsDBRecords, Mode=TwoWay}" Grid.Row="6" Grid.Column="2" Margin="0,0,0,10" BorderBrush="Black">Actions</CheckBox>
+
+                                <TextBlock Text="Update Closeprices in DB" Grid.Row="7" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbUpdateClosePrices" IsChecked="{Binding UpdateClosePrices, Mode=TwoWay}" Grid.Row="7" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black" Grid.ColumnSpan="2">Update 'atExchange'</CheckBox>
+
+                                <TextBlock Text="Panic Sell" Grid.Row="8" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <CheckBox x:Name="cbPanicSellActivated" IsChecked="{Binding PanicSellActivated, Mode=TwoWay}" Grid.Row="8" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black" Grid.ColumnSpan="2" Content="Active   when:"/>
+                                <TextBlock Text="MC 1hr" Grid.Row="8" Grid.Column="1" Margin="109.8,7.6,10,17.2"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <TextBox Name="cbMC1Hr" Text="{Binding PSMC1hr, Mode=TwoWay}"  Grid.Row="8" Grid.Column="2" Margin="39.8,2.6,0,12.2" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                <TextBlock Text="MC 4hr" Grid.Row="8" Grid.Column="2"   VerticalAlignment="Center" Margin="101.8,7.6,-102,17.2" />
+                                <TextBox Name="cbMC4Hr" Text="{Binding PSMC4hr, Mode=TwoWay}" Grid.Row="8" Grid.Column="2"  Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Margin="145.8,2.6,0,12.2" />
+                               
+                                <TextBlock Text="Next actions each minute" Grid.Row="9" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbScanAllTimeframesEachMinute" IsChecked="{Binding ScanAllTimeframesEachMinute, Mode=TwoWay}" Grid.Row="9" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black" Grid.ColumnSpan="2">Enabled</CheckBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Bottom-UP">
+                            <Grid Margin="-1,0,1,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Bollinger bandwidth Min." Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <TextBox Text="{Binding BUBollingerBandWidth, Mode=TwoWay}" Width="50"  HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text=" %" VerticalAlignment="Center" />
+                                    <TextBlock Text=" / Max. " VerticalAlignment="Center" />
+                                    <TextBox Text="{Binding BUMaxBollingerBandWidth, Mode=TwoWay}" Width="50"  HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text=" %" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <TextBlock Text="Max. RSI" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <TextBox Name="tbBURSI"  Grid.Row="1" Grid.Column="2" Text="{Binding BURSI, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                                <TextBlock Text="Max. MFI" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <TextBox Name="tbBUMFI"  Grid.Row="2" Grid.Column="2" Text="{Binding BUMFI, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                                <TextBlock Text="Basic StopLoss %" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="3" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2"  Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <TextBox Name="tbStopLoss" Text="{Binding BUStopLoss, Mode=TwoWay}"  Margin="0,0,20,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text="1" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="3" />
+                                    <TextBox Name="tbStopLoss1" Text="{Binding BUStopLoss1, Mode=TwoWay}"  Margin="0,0,20,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text="2" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="3" />
+                                    <TextBox Name="tbStopLoss2" Text="{Binding BUStopLoss2, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text="Last" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="3" />
+                                    <TextBox Name="tbStopLossLast" Text="{Binding BUStopLossLast, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                </StackPanel>
+
+                                <TextBlock Text="Trading Budget (BTC)" Grid.Row="4" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <TextBox Name="tbTradingBudget"  Grid.Row="4" Grid.Column="1" Text="{Binding TradingBudget, Mode=TwoWay}"  Margin="0.2,2.4,0,12.4" Width="100"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                                <TextBlock Text="Max. Rebuys" Grid.Row="5" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                                <TextBox Name="tbMaxRebuysBU"  Grid.Row="5" Grid.Column="2" Text="{Binding MaxRebuysBU, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Middle-Up">
+                            <Grid Margin="0,0,1,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="105"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Bollinger bandwidth Min." Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <TextBox Text="{Binding MinBollingerBandWidth, Mode=TwoWay}" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text=" % / Max. " VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <TextBox Text="{Binding MaxBollingerBandWidth, Mode=TwoWay}" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <TextBlock Text=" %" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <TextBlock Text="With Indicator: " Grid.Row="1" Grid.Column="0" Margin="0,5,10,20" VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <CheckBox Name="cbStoch" IsChecked="{Binding ChStoch, Mode=TwoWay}" Margin="0,0,0,10"  BorderBrush="Black" Click="cbStoch_Click"></CheckBox>
+                                    <TextBlock FontWeight="Bold" Text="Stochastic" Margin="0,0,0,10"  VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                    <CheckBox Name="cbStochRSI" IsChecked="{Binding ChStochRSI, Mode=TwoWay}" Margin="0,0,0,10" BorderBrush="Black" Click="cbStochRSI_Click"></CheckBox>
+                                    <TextBlock FontWeight="Bold" Text="Stochastic RSI" Margin="0,0,0,10" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <TextBlock Text="Max. Stoch %K" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <TextBox Name="tbStochK" Grid.Row="2" Grid.Column="1" Text="{Binding StochK, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                <TextBlock Text="Max. StochRSI %K" Grid.Row="2" Grid.Column="2" Margin="0,0,0,10" VerticalAlignment="Center" />
+                                <TextBox Name="tbStochRSIK" Grid.Row="2" Grid.Column="3" Text="{Binding StochRSIK, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                                <TextBlock Text="Max. Stoch %D" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" />
+                                <TextBox Name="tbStochD" Grid.Row="3" Grid.Column="1" Text="{Binding StochD, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                <TextBlock Text="Max. StochRSI %D" Grid.Row="3" Grid.Column="2" Margin="0,0,0,10" VerticalAlignment="Center" />
+                                <TextBox Name="tbStochRSID" Grid.Row="3" Grid.Column="3" Text="{Binding StochRSID, Mode=TwoWay}" Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                                <TextBlock Text="MACD Signal UP" Grid.Row="4" Grid.Column="0" Margin="0,0,10,10"  VerticalAlignment="Center"/>
+                                <CheckBox Name="cbMACDUPMU" IsChecked="{Binding ChMACDUPMU, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Family" Height="21" Margin="-0.2,0,0.4,-0.2" VerticalAlignment="Top" Visibility="Visible" >
+                            <Grid Margin="-1,0,1,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="125"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="125"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="RSI Buy" Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbrsirsi"  Grid.Row="0" Grid.Column="1" Text="{Binding RsiRSI, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                                <TextBlock Text="RSI Sell" Grid.Row="0" Grid.Column="2" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbrsirsisell"  Grid.Row="0" Grid.Column="3" Text="{Binding RsiRSISell, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                                <TextBlock Text="StochRSI %K/%D Buy" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbStochRSIKBUY"  Grid.Row="1" Grid.Column="1" Text="{Binding RsiStochRSI, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26"  />
+                                <TextBlock Text="StochRSI %K/%D Sell" Grid.Row="1" Grid.Column="2" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbStochRSIKSell"  Grid.Row="1" Grid.Column="3" Text="{Binding RsiStochRSISell, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                                <TextBlock Text="MFI Buy" Grid.Row="2" Grid.Column="0" Margin="0,7.2,9.6,16.8"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbrsimfi"  Grid.Row="2" Grid.Column="1" Text="{Binding RsiMFI, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                                <TextBlock Text="MFI Sell" Grid.Row="2" Grid.Column="2" Margin="0,7.2,9.6,16.8"  VerticalAlignment="Center" Height="16" />
+                                <TextBox Name="tbrsimfiSell"  Grid.Row="2" Grid.Column="3" Text="{Binding RsiMFISell, Mode=TwoWay}"  Margin="0,0,0,14"   Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Zignaly">
+                <Grid Margin="0,0,1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock FontWeight="Bold" Text="Manual Trading" Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" Grid.ColumnSpan="3" />
+
+                    <TextBlock Text="Zignaly Code" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20" VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly"  Grid.Row="1" Grid.Column="1" Text="{Binding Zignaly, Mode=TwoWay}" Margin="0,0,0,10" Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+
+                    <TextBlock FontWeight="Bold"  Text="Auto Trading" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" Grid.ColumnSpan="3" />
+
+                    <TextBlock Text="Zignaly 1 min" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly1"  Grid.Row="3" Grid.Column="1" Text="{Binding Zignaly1min, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 3 min" Grid.Row="4" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly3"  Grid.Row="4" Grid.Column="1" Text="{Binding Zignaly3min, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 5 min" Grid.Row="5" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly5"  Grid.Row="5" Grid.Column="1" Text="{Binding Zignaly5min, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 15 min" Grid.Row="6" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly15"  Grid.Row="6" Grid.Column="1" Text="{Binding Zignaly15min, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 30 min" Grid.Row="7" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly30"  Grid.Row="7" Grid.Column="1" Text="{Binding Zignaly30min, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 1 hr" Grid.Row="8" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly1h"  Grid.Row="8" Grid.Column="1" Text="{Binding Zignaly1hr, Mode=TwoWay}"  Margin="0,0,0,10"  Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 4 hr" Grid.Row="9" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly4h"  Grid.Row="9" Grid.Column="1" Text="{Binding Zignaly4hr, Mode=TwoWay}"  Margin="0,0,0,10"  Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Zignaly 1 day" Grid.Row="10" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbZignaly1day"  Grid.Row="10" Grid.Column="1" Text="{Binding Zignaly1day, Mode=TwoWay}"  Margin="0,0,0,10"  Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+
+                    <TextBlock Text="Last ExchangeId" Grid.Row="11" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbExchangeId"  Grid.Row="11" Grid.Column="1" Text="{Binding ExchangeId, Mode=TwoWay}"  Margin="0,0,0,10"  Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Binance" >
+                <Grid Margin="0,0,1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Binance Key" Grid.Row="0" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbApiKeyBinance"  Grid.Row="0" Grid.Column="1" Text="{Binding ApiKeyBinance, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Binance Secret" Grid.Row="1" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <TextBox Name="tbApiSecretBinance" Grid.Row="1" Grid.Column="1" Text="{Binding ApiSecretBinance, Mode=TwoWay}"  Margin="0,0,0,10"   Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="BNB Auto Reorder" Grid.Row="2" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1"   Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                            <TextBox Name="tbcheckBNBMinutes" Text="{Binding checkBNBMinutes, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                            <TextBlock Text="Check each minutes" Margin="2,5,0,20"  VerticalAlignment="Center" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                            <TextBox Name="tbAddBNBQuote" Text="{Binding AddBNBQuote, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                            <TextBlock Text="BNB quote" Margin="2,5,10,20"  VerticalAlignment="Center" Height="16" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                            <TextBox Name="tbMinBNBAmount" Text="{Binding MinBNBAmount, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                            <TextBlock Text="Min. amount" Margin="2,5,10,20"  VerticalAlignment="Center" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                            <TextBox Name="tbAddBNBAmount" Text="{Binding AddBNBAmount, Mode=TwoWay}" Margin="0,0,0,10" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                            <TextBlock Text="Add amount" Margin="2,5,10,20"  VerticalAlignment="Center" Height="16" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock Text="Dust->BNB at hr:min" Grid.Row="3" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="0,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2">
+                        <TextBox Name="tbTime2ConvertDust2BNB" Text="{Binding Time2ConvertDust2BNB, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black"  />
+                        <TextBlock Text="(empty to disable)" Margin="2,5,10,20"  VerticalAlignment="Center" Height="16" />
+                    </StackPanel>
+
+                    <TextBlock Text="Telegram API Id" Visibility="Hidden" Grid.Row="4" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                    <TextBox Name="tbTelegramApiId" Visibility="Hidden" Grid.Row="4" Grid.Column="1" Text="{Binding TelegramApiId, Mode=TwoWay}"  Margin="0,0,0,10" Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Telegram API Hash" Visibility="Hidden" Grid.Row="5" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                    <TextBox Name="tbTelegramApiHash" Visibility="Hidden" Grid.Row="5" Grid.Column="1" Text="{Binding TelegramApiHash, Mode=TwoWay}"  Margin="0,0,0,10" Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                    <TextBlock Text="Telegram User Nr" Visibility="Hidden" Grid.Row="6" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                    <StackPanel Orientation="Horizontal" Visibility="Hidden" Grid.Row="6" Grid.Column="1"   Margin="0,0,0,10"  HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.ColumnSpan="2" >
+                        <TextBox Name="tbTelegramUserNumber" Visibility="Hidden" Text="{Binding TelegramUserNumber, Mode=TwoWay}"  Margin="0,0,0,10" Width="200"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                        <Button Name="btnTelegramCodeRequest" Visibility="Hidden" Width="90" HorizontalAlignment="Right"  Margin="10,0,10,10"  VerticalAlignment="Center" BorderBrush="Black">Request Code</Button>
+                    </StackPanel>
+
+                    <TextBlock Text="Code from Telegram" Visibility="Hidden" Grid.Row="7" Grid.Column="0" Margin="0,5,10,20"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                    <TextBox Name="tbTelegramCode" Visibility="Hidden" Grid.Row="7" Grid.Column="1" Text="{Binding TelegramCode, Mode=TwoWay}"  Margin="0,0,0,10" Width="250"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Log" >
+                <Grid Margin="0,0,1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnDataMap" Content="Datamap" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="0,10,0,10"  VerticalAlignment="Top" Width="85" Height="18" BorderBrush="Black" Click="DlgDataMap_Click" Grid.RowSpan="2" />
+                    <TextBox x:Name="tbDirDataMap" Grid.Row="1" Grid.Column="2" Text="{Binding DirDataMap, Mode=OneWay}"  Margin="0,0,0,10"   Width="209"  HorizontalAlignment="Left"  VerticalAlignment="Center" IsReadOnly = "True" />
+
+                    <TextBlock Text="Write to log file" Grid.Row="0" Grid.Column="0" Margin="0,5,0,15"  VerticalAlignment="Center"  HorizontalAlignment="Left" />
+                    <ComboBox Name="dropWriteLogFileType" Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" Width="auto" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding WriteLogFileTypes}" BorderBrush="Black" />
+                    
+                    <TextBlock Text="Write to CSV file" Grid.Row="1" Grid.Column="0" Margin="0,5,0,15"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Name="cbWriteCsvFile" IsChecked="{Binding WriteCsvFile, Mode=TwoWay}" Margin="0,0,0,10"  Grid.Row="1" Grid.Column="1" BorderBrush="Black" Grid.ColumnSpan="2">Active</CheckBox>
+
+                    <TextBlock Text="Write Bm values to file" Grid.Row="2" Grid.Column="0" Margin="0,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Name="cbBmValuesToFile" IsChecked="{Binding BmValuesToFile, Mode=TwoWay}" Margin="0,0,0,10"  Grid.Row="2" Grid.Column="1" BorderBrush="Black" >Active</CheckBox>
+                    <CheckBox Name="cbBmValuesToFileWhenTfRun" IsChecked="{Binding BmValuesToFileWhenTfRun, Mode=TwoWay}" Margin="0,0,0,10"  Grid.Row="2" Grid.Column="2" BorderBrush="Black" >Only when timeframe(s) run</CheckBox>
+
+                    <TextBlock Text="Log not-valid signals" Grid.Row="3" Grid.Column="0" Margin="0,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Name="cbLogInvalidSignals" IsChecked="{Binding LogInvalidSignals, Mode=TwoWay}" Margin="0,0,0,10"  Grid.Row="3" Grid.Column="1" BorderBrush="Black" Grid.ColumnSpan="2" >Active</CheckBox>
+
+                    <TextBlock Text="Log URI requests" Grid.Row="4" Grid.Column="0" Margin="0,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+                        <CheckBox Name="cbLogUriOwnAPI" IsChecked="{Binding LogUriOwnAPI, Mode=TwoWay}" Margin="0,0,0,10"  BorderBrush="Black" Grid.ColumnSpan="2" >Own API</CheckBox>
+                        <CheckBox Name="cbLogUriBinance" IsChecked="{Binding LogUriBinance, Mode=TwoWay}" Margin="30,0,0,10"  BorderBrush="Black" Grid.ColumnSpan="2" >Binance</CheckBox>
+                        <CheckBox Name="cbLogUriZignaly" IsChecked="{Binding LogUriZignaly, Mode=TwoWay}" Margin="30,0,0,10"  BorderBrush="Black" Grid.ColumnSpan="2" >Zignaly</CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Max visible lines" Grid.Row="5" Grid.Column="0" Margin="0,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+                        <TextBox Name="tbMaxLogLines" Text="{Binding MaxLogLines, Mode=TwoWay}"  Margin="0,0,0,10"  Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                        <TextBlock Text="Log" Margin="5,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+                        <TextBox Name="tbMaxRecordLines" Text="{Binding MaxRecordLines, Mode=TwoWay}"  Margin="0,0,0,10"  Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Height="26" />
+                        <TextBlock Text="Records" Margin="5,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <TextBlock Text="Csvfile IndicatorCalc." Grid.Row="6" Grid.Column="0" Margin="0,5,10,20" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+                        <TextBox Name="tbLogIndicatorCalculationsForSymbol" Text="{Binding LogIndicatorCalculationsForSymbol, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                        <TextBlock Text="(symbol name)" Margin="5,5,0,15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+            <Button Name="btnReset" Width="90" HorizontalAlignment="Right"  Margin="0,0,10,10"  VerticalAlignment="Center" BorderBrush="Black">Reset</Button>
+            <Button Name="btnSave" Width="90" HorizontalAlignment="Right"  Margin="0,0,10,10"  VerticalAlignment="Center" BorderBrush="Black">Save</Button>
+            <Button Name="btnCancel" Width="90" HorizontalAlignment="Right"  Margin="0,0,10,10"  VerticalAlignment="Center" BorderBrush="Black">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Controls:MetroWindow>

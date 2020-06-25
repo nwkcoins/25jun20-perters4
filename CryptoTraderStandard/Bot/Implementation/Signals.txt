@@ -1,0 +1,142 @@
+                if (_settings.ChMiddleUP) Strategy = "Middle-UP";
+                else if (_settings.ChBottumUp) Strategy = "Bottom-UP";
+                else if (_settings.ChRSIFamily) Strategy = "RSI Famlily";
+
+                if
+                   (
+                       (
+                           (_settings.ChBottumUp)
+                           && (candle.ClosePrice > _settings.LowSatBTC)
+                           && (bbands.Bandwidth > (decimal)_settings.BUMinBollingerBandWidth)
+                           && (bbands.Bandwidth < (decimal)_settings.BUMaxBollingerBandWidth)
+                           && (candle.ClosePrice < bbands.Lower)
+                           && (stoch.K < 20 && stoch.D < 20)
+                           && (mfi.MFI < _settings.BUMFI)
+                           && (stocasticRSI.RSIValue < (decimal)_settings.BURSI))
+                       ||
+                           ((_settings.ChMiddleUP) && (_settings.ChStoch) && (_settings.ChMACDUPMU))
+                           && (candle.ClosePrice > _settings.LowSatBTC)
+                           && (bbands.Bandwidth > _settings.MinBollingerBandWidth)
+                           && (bbands.Bandwidth < _settings.MaxBollingerBandWidth)
+                           && (candle.ClosePrice > bbands.Middle) 
+                           && (candle.ClosePrice < bbands.MiddleUp)
+                           && (stoch.K < _settings.StochK)
+                           && (stoch.D < _settings.StochD)
+                           && (stoch.D2 < stoch.D)
+                           && (stoch.D3 < stoch.D2)
+                           && (stoch.D4 < stoch.D3)
+                           && (bbands.Middle1 < bbands.Middle)
+                           && (bbands.Middle2 < bbands.Middle1)
+                           && (bbands.Middle3 < bbands.Middle2)
+                           && (bbands.Middle4 < bbands.Middle3)
+                           && (macd.macdsig1 < macd.macdsig)
+                           && (macd.macdsig2 < macd.macdsig1)
+                        ||
+                            ((_settings.ChMiddleUP) && (_settings.ChStoch) && (!_settings.ChMACDUPMU))
+                            && (candle.ClosePrice > _settings.LowSatBTC)
+                            && (bbands.Bandwidth > _settings.MinBollingerBandWidth)
+                            && (bbands.Bandwidth < _settings.MaxBollingerBandWidth)
+                            && (candle.ClosePrice > bbands.Middle) 
+                            && (candle.ClosePrice < bbands.MiddleUp)
+                            && (stoch.K < _settings.StochK)
+                            && (stoch.D < _settings.StochD)
+                            && (stoch.D2 < stoch.D)
+                            && (stoch.D3 < stoch.D2)
+                            && (stoch.D4 < stoch.D3)
+                            && (bbands.Middle1 < bbands.Middle)
+                            && (bbands.Middle2 < bbands.Middle1)
+                            && (bbands.Middle3 < bbands.Middle2)
+                            && (bbands.Middle4 < bbands.Middle3)
+                        ||
+                            ((_settings.ChMiddleUP) && (_settings.ChStochRSI) && (_settings.ChMACDUPMU))
+                            && (candle.ClosePrice > _settings.LowSatBTC)
+                            && (bbands.Bandwidth > _settings.MinBollingerBandWidth)
+                            && (bbands.Bandwidth < _settings.MaxBollingerBandWidth)
+                            && (candle.ClosePrice > bbands.Middle) 
+                            && (candle.ClosePrice < bbands.MiddleUp)
+                            && (stocasticRSI.KValue < (decimal)_settings.StochRSIK)
+                            && (stocasticRSI.DValue < (decimal)_settings.StochRSID)
+                            && (stocasticRSI.DValue3 < stocasticRSI.DValue2)
+                            && (stocasticRSI.DValue2 < stocasticRSI.DValue1)
+                            && (bbands.Middle1 < bbands.Middle)
+                            && (bbands.Middle2 < bbands.Middle1)
+                            && (bbands.Middle3 < bbands.Middle2)
+                            && (bbands.Middle4 < bbands.Middle3)
+                            && (macd.macdsig1 < macd.macdsig)
+                            && (macd.macdsig2 < macd.macdsig1)
+                        ||
+                            ((_settings.ChMiddleUP) && (_settings.ChStochRSI) && (!_settings.ChMACDUPMU))
+                            && (candle.ClosePrice > _settings.LowSatBTC)
+                            && (bbands.Bandwidth > _settings.MinBollingerBandWidth)
+                            && (bbands.Bandwidth < _settings.MaxBollingerBandWidth)
+                            && (candle.ClosePrice > bbands.Middle && candle.ClosePrice < bbands.MiddleUp)
+                            && (stocasticRSI.KValue < (decimal)_settings.StochRSIK)
+                            && (stocasticRSI.DValue < (decimal)_settings.StochRSID)
+                            && (stocasticRSI.DValue3 < stocasticRSI.DValue2)
+                            && (stocasticRSI.DValue2 < stocasticRSI.DValue1)
+                            && (bbands.Middle1 < bbands.Middle)
+                            && (bbands.Middle2 < bbands.Middle1)
+                            && (bbands.Middle3 < bbands.Middle2)
+                            && (bbands.Middle4 < bbands.Middle3)
+                        ||
+                            (_settings.ChRSIFamily)
+                            && (candle.ClosePrice > _settings.LowSatBTC)
+                            && (mfi.MFI < _settings.RsiMFI)
+                            && (stocasticRSI.KValue < (decimal)_settings.RsiStochRSI)
+                            && (stocasticRSI.DValue < (decimal)_settings.RsiStochRSI)
+                            && (stocasticRSI.RSIValue < (decimal)_settings.RsiRSI))
+                {
+                    // open buy order when price closes above Middle bollinger bands
+                    // and stochastics K & D are both below 45
+                    // K3 smaller K2 and K2 smaller K
+                    NumberFormatInfo nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = ".";
+                    Bbands = bbands.Bandwidth;
+                    //					var bprice = ((bbands.Middle / 1000) * 1001);
+                    BPrice = candle.ClosePrice.ToString(nfi);
+                    //					var lprice = ((bbands.Middle / 10000) * 10005);
+                    //					LPrice = lprice.ToString(nfi);
+                    var takeP = ((bbands.Upper / 1000) * 998);
+                    TakeP = takeP.ToString(nfi);
+                    var stLoss = ((bbands.Lower / 1000) * 999);
+                    StLoss = stLoss.ToString(nfi);
+                    RelativeSI = stocasticRSI.RSIValue;
+                    MoneyFI = mfi.MFI;
+                    ClPrice = candle.ClosePrice;
+                    tradeType = TradeType.Long;
+                    return true;
+                }
+                else
+                {
+                    if ((_settings.ChBottumUp)
+                        && (candle.ClosePrice > _settings.LowSatBTC)
+                        && (candle.ClosePrice > bbands.Upper)
+                        && (stoch.K > 80)
+                        && (stoch.D > 80)
+                        && (_settings.AllowShorts))
+                    {
+                        // open sell order when price closes above upper bollinger bands
+                        // and stochastics K & D are both above 80
+                        tradeType = TradeType.Short;
+                        return true;
+                    }
+                    else if ((_settings.ChRSIFamily)
+                        && (candle.ClosePrice > _settings.LowSatBTC)
+                        && (mfi.MFI < _settings.RsiMFISell)
+                        && (stocasticRSI.KValue < (decimal)_settings.RsiStochRSISell)
+                        && (stocasticRSI.DValue < (decimal)_settings.RsiStochRSISell)
+                        && (stocasticRSI.RSIValue < (decimal)_settings.RsiRSISell))
+                    {
+                        // open sell order when MFI Stoch RSI and RSI are Overbought
+                        // and stochastics K & D are both above 80
+                        tradeType = TradeType.Short;
+                        return true;
+                    }
+                    else
+                    {
+                        ErrorMessage = "No Valid Signal" + " StockRSI K: " + Math.Round((stocasticRSI.KValue), 2) + "  StochRSI D: " + Math.Round((stocasticRSI.DValue), 2) + "  RSI: " + Math.Round((stocasticRSI.RSIValue), 2) + "  MFI: " + Math.Round((mfi.MFI), 2);
+                    }
+                }
+            }
+            return false;
+        }

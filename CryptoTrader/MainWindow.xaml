@@ -1,0 +1,298 @@
+﻿<Controls:MetroWindow x:Class="CryptoTrader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	    xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:CryptoTrader"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        BorderThickness="0" 
+        GlowBrush="Black"
+        ResizeMode="CanResizeWithGrip"
+
+        WindowTransitionsEnabled="False"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}" Width="600" Height="320" Icon="ScanBitcoin.ico" ScrollViewer.CanContentScroll="True">
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Menu Margin="0,0,0,0">
+                <MenuItem Header="File" Width="71">
+                    <MenuItem Header="Settings"  Name="menuItemSettings"/>
+                    <MenuItem Header="Quit"   Name="menuItemQuit"/>
+                </MenuItem>
+            </Menu>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Name="TabControlMain" Margin="10" BorderBrush="Gainsboro" SelectedIndex="0" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="TabControl_SelectionChanged">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Scanner" Name="TabScanner">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="5,5,5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal"   Margin="0,0,0,0.4" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="558" >
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="1 min"></Label>
+                                <Slider x:Name="slTf1min" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="3 min"></Label>
+                                <Slider x:Name="slTf3min" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="5 min"></Label>
+                                <Slider x:Name="slTf5min" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Width="42">
+                                <Label Content="15 min"></Label>
+                                <Slider x:Name="slTf15min" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,-0.4,0" VerticalAlignment="Top" Width="42" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="30 min"></Label>
+                                <Slider x:Name="slTf30min" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="46" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="1 hr"></Label>
+                                <Slider x:Name="slTf1hr" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="39" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Visibility="Visible">
+                                <Label Content="4 hr"></Label>
+                                <Slider x:Name="slTf4hr" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Visibility="Visible">
+                                <Label Content="1 d"></Label>
+                                <Slider x:Name="slTf1day" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Maximum="2" Minimum="0" SmallChange="1" Value="0" Height="40" IsDirectionReversed="True" TickPlacement="Both" Orientation="Vertical"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <Label Content="State"></Label>
+                                <Label Content="OFF&#xD;&#xA;ON&#xD;&#xA;PAUSE" Grid.Column="1" HorizontalAlignment="Left" Margin="0,-5,0,0" VerticalAlignment="Top" FontSize="10"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Width="159">
+                                <Button x:Name="btnAllCurrentSignalsRefresh"  Visibility="Visible"  Margin="0,5,9,5"  VerticalAlignment="Center" BorderBrush="Black" Content="Current Signals Refresh" HorizontalAlignment="Right" Width="146"/>
+                                <CheckBox x:Name="cbMcCheckActive" IsChecked="{Binding McCheckActive, Mode=TwoWay}" Margin="10,0,-0.2,0" BorderBrush="Black" Content="MC check active"/>
+                            </StackPanel>
+                            <Border CornerRadius="6" BorderBrush="Gray" Background="LightGray" BorderThickness="2" Visibility="Hidden">
+                                <StackPanel Orientation="Vertical" Grid.Column="1" Visibility="Visible">
+                                    <Label Content="Orderbook"></Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ComboBox Name="cbOrderbookSelectSymbol" Margin="10,0,10,10" Width="auto" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding OrderbookSelectSymbols}" BorderBrush="Black" />
+                                        <Button Name="btnOrderbookRefresh" Width="60" HorizontalAlignment="Right"  Margin="10,0,10,10"  VerticalAlignment="Center" BorderBrush="Black">Refresh</Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="5,5,5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ListBox Name="lstbx_Signals"  ItemsSource="{Binding ListBoxSignals}" Margin="0,0,0,0" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <TextBlock Text="{Binding Id}" Width="50"/>
+                                        <TextBlock Text="{Binding TimeframeName}" Width="40"/>
+                                        <TextBlock Text="{Binding Strategy}" Width="65"/>
+                                        <TextBlock Text="{Binding StartDateTime}" Width="130" />
+                                        <TextBlock Text="{Binding Symbol}" Width="70" />
+                                        <TextBlock Text=" BB=" />
+                                        <TextBlock Text="{Binding BBWidth}"/>
+                                        <TextBlock Text=" RSI=" />
+                                        <TextBlock Text="{Binding RSI}"/>
+                                        <!--
+                                        <TextBlock Text=" RSIK=" />
+                                        <TextBlock Text="{Binding RSIK}"/>
+                                        <TextBlock Text=" RSID=" />
+                                        <TextBlock Text="{Binding RSID}"/>
+                                        -->
+                                        <TextBlock Text=" MFI="/>
+                                        <TextBlock Text="{Binding MFI}" />
+                                        <TextBlock Text=" ₿=" />
+                                        <TextBlock Text="{Binding ClosePrice}" />
+                                        <TextBlock Text=" MC1Hr=" />
+                                        <TextBlock Text="{Binding Bm1Hr}" />
+                                        <TextBlock Text=" MaxBuy=" />
+                                        <TextBlock Text="{Binding MaxBuyAmount}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header=" Valid Signals " Name="TabLiteDB"  Visibility="Visible">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Margin="5,5,5,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <Button Name="btnLiteDBRefresh"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,0,0"  VerticalAlignment="Center" BorderBrush="Black">Refresh</Button>
+
+                            <Border CornerRadius="3" BorderBrush="Gray" Background="LightGray" BorderThickness="1" Visibility="Visible" Margin="7,2,2,2">
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox Name="cbLiteDBSignalStates" Width="auto" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" ItemsSource="{Binding LiteDBSignalStates}" BorderBrush="Black" />
+                                    <Button Name="btnLiteDBUpdateSignalState"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,0,0"  VerticalAlignment="Center" BorderBrush="Black">Update</Button>
+                                    <Button Name="btnLiteDBSSToggleStatesVisibility"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,5,0"  VerticalAlignment="Center" BorderBrush="Black">(Un)Hide</Button>
+                                </StackPanel>
+                            </Border>
+
+                            <Button Name="btnSendToTradingView"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,0,0"  VerticalAlignment="Center" BorderBrush="Black">Tradingview</Button>
+
+                            <Border CornerRadius="3" BorderBrush="Gray" Background="LightGray" BorderThickness="1" Visibility="Visible" Margin="7,2,2,2">
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox Name="cbLiteDBSignalActions" Width="auto" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" ItemsSource="{Binding LiteDBSignalStates}" BorderBrush="Black" />
+                                    <TextBox Name="tbLiteDBSignalBuyPrice" Text="{Binding LiteDBSignalBuyPrice, Mode=TwoWay}"  Margin="5,0,0,0" Width="75"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
+                                    <Button Name="btnLiteDBSignalAction"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,0,0"  VerticalAlignment="Center" BorderBrush="Black">Do</Button>
+                                    <Button Name="btnLiteDBSSToggleActionsVisibility"  Visibility="Visible" Width="auto" HorizontalAlignment="Left"  Margin="5,0,5,0"  VerticalAlignment="Center" BorderBrush="Black">(Un)Hide</Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                            <Label VerticalAlignment="Top">Visible SignalStates:</Label>
+                            <TextBlock Text="{Binding LiteDBSignalStatesVisibles}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                            <Label VerticalAlignment="Top">Visible SignalActions:</Label>
+                            <TextBlock Text="{Binding LiteDBSignalActionsVisibles}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="DataGridLiteDBSignals" ItemsSource="{Binding GridAllLiteDBSignals}" Grid.Row="0" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" SelectionMode="Extended" SelectionUnit="FullRow" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Margin="0,0,0,0" IsReadOnly="True" Height="Auto" FontSize="10" HeadersVisibility="Column" >
+                                <DataGrid.AlternatingRowBackground>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                                </DataGrid.AlternatingRowBackground>
+                            </DataGrid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="  Orderbook  " Name="TabOrderbook">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="DataGridOrderbook" ItemsSource="{Binding GridOrderbook}" Grid.Row="0" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" SelectionMode="Extended" SelectionUnit="FullRow" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Margin="0,0,0,0" IsReadOnly="True" Height="Auto"  FontSize="10" HeadersVisibility="Column" >
+                        <DataGrid.AlternatingRowBackground>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!--
+            <TabItem Header=" Current Signals " Name="TabAllSignals"  Visibility="Visible">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="1">
+                        <DataGrid Name="dgAllCurrentSignals" ItemsSource="{Binding AllCurrentSignals}" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Margin="0,0,0,0" IsReadOnly="True" FontSize="10" HeadersVisibility="Column" >
+                            <DataGrid.AlternatingRowBackground>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                            </DataGrid.AlternatingRowBackground>
+                        </DataGrid>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            -->
+            <TabItem Header="  Log  " Name="TabLog">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="2">
+                        <TextBlock Text="{Binding LogMessages}" Margin="0,0,0,0" FontSize="10" ScrollViewer.VerticalScrollBarVisibility="Visible"></TextBlock>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <DockPanel Grid.Row="4" Background="#cccccc">
+            <TextBlock VerticalAlignment="Bottom" DockPanel.Dock="Left" Margin="10,0,0,0" Text="{Binding StatusText}" />
+            <TextBlock VerticalAlignment="Bottom" DockPanel.Dock="Right" Margin="0,0,10,0" Text="{Binding ClockText}" />
+            <TextBlock VerticalAlignment="Bottom" DockPanel.Dock="Right" Margin="0,0,10,0" Text="{Binding BMPercentage}" />
+            <TextBlock />
+        </DockPanel>
+    </Grid>
+</Controls:MetroWindow>
