@@ -516,7 +516,7 @@ namespace CryptoTraderStandard.Strategy
                     {
                         case SignalsTBL.Strategies.BottomUp:
                             // BuyCount=(1stBuy + Rebuys) == (maxRebuys+1) reached? else continue with other conditions..
-                            if ((NewSignal.BuyCount == (Settings.MaxRebuysBU + 1)) // cp > 3% BP
+                            if ((NewSignal.BuyCount == 3 /*(Settings.MaxRebuysBU + 1)*/ ) // cp > 3% BP
                                 && (_candle1st.ClosePrice >= (NewSignal.BuyPrice - ((NewSignal.BuyPrice / 100) - (Settings.BUStopLoss2 + Settings.BUStopLossLast))))) // 3.00%
                             {
                                 NewSignal.SignalAction = SignalsTBL.SignalActions.Sell;
@@ -564,10 +564,10 @@ namespace CryptoTraderStandard.Strategy
                                     }
 
                                     // max rebuys reached, thus (BuyCount=(1stBuy + Rebuys) > maxrebuys then stop with this condition else next conditions..
-                                    else if (NewSignal.BuyCount > Settings.MaxRebuysBU)
-                                    {
-                                        Console.WriteLine($"{DateTime.Now.ToString("ddMMMyy.HHmmss")} CheckSignalAfterFilled BottomUP strategy: BuyCount={NewSignal.BuyCount}, maxReBuys={Settings.MaxRebuysBU} => no more rebuys!");
-                                    }
+                                    //else if (NewSignal.BuyCount > Settings.MaxRebuysBU)
+                                    //{
+                                    //    Console.WriteLine($"{DateTime.Now.ToString("ddMMMyy.HHmmss")} CheckSignalAfterFilled BottomUP strategy: BuyCount={NewSignal.BuyCount}, maxReBuys={Settings.MaxRebuysBU} => no more rebuys!");
+                                    //}
 
                                     // Take profit Mimimal 0,4% Maximaal 0,9%% / MiddelsteBB
                                     else if ((NewSignal.BuyCount == 1)  // 3% < cp < 1,25%

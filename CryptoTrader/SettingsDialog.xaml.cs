@@ -163,6 +163,7 @@ namespace CryptoTrader
             PanicSellActivated = settings.PanicSellActivated;
             PSMC1hr = $"{settings.PSMC1hr:0.00}";
             PSMC4hr = $"{settings.PSMC4hr:0.00}";
+            MaxCMDifferencePercentage = $"{settings.MaxCMDifferencePercentage:0.00}";
             LogIndicatorCalculationsForSymbol = settings.LogIndicatorCalculationsForSymbol;
             ScanAllTimeframesEachMinute = settings.ScanAllTimeframesEachMinute;
             MinBNBAmount = $"{settings.MinBNBAmount:0.00}";
@@ -424,6 +425,10 @@ namespace CryptoTrader
             if (decimal.TryParse(PSMC4hr, out dec))
             {
                 settings.PSMC4hr = dec;
+            }
+            if (decimal.TryParse(MaxCMDifferencePercentage, out dec))
+            {
+                settings.MaxCMDifferencePercentage = dec;
             }
 
             if (decimal.TryParse(LowSatBTC, out dec))
@@ -801,6 +806,12 @@ namespace CryptoTrader
         {
             get { return (string)GetValue(PSMC4hrProperty); }
             set { this.SetValue(PSMC4hrProperty, value); }
+        }
+        public static readonly DependencyProperty MaxCMDifferencePercentageProperty = DependencyProperty.Register("MaxCMDifferencePercentage", typeof(string), typeof(SettingsDialog));
+        public string MaxCMDifferencePercentage
+        {
+            get { return (string)GetValue(MaxCMDifferencePercentageProperty); }
+            set { this.SetValue(MaxCMDifferencePercentageProperty, value); }
         }
 
         public static readonly DependencyProperty MaxFlatCandlesProperty = DependencyProperty.Register("MaxFlatCandles", typeof(string), typeof(SettingsDialog));

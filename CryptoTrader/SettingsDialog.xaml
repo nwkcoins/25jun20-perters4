@@ -164,6 +164,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
@@ -215,9 +216,12 @@
                                 <TextBox Name="cbMC1Hr" Text="{Binding PSMC1hr, Mode=TwoWay}"  Grid.Row="8" Grid.Column="2" Margin="39.8,2.6,0,12.2" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" />
                                 <TextBlock Text="MC 4hr" Grid.Row="8" Grid.Column="2"   VerticalAlignment="Center" Margin="101.8,7.6,-102,17.2" />
                                 <TextBox Name="cbMC4Hr" Text="{Binding PSMC4hr, Mode=TwoWay}" Grid.Row="8" Grid.Column="2"  Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Margin="145.8,2.6,0,12.2" />
-                               
-                                <TextBlock Text="Next actions each minute" Grid.Row="9" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
-                                <CheckBox Name="cbScanAllTimeframesEachMinute" IsChecked="{Binding ScanAllTimeframesEachMinute, Mode=TwoWay}" Grid.Row="9" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black" Grid.ColumnSpan="2">Enabled</CheckBox>
+
+                                <TextBlock Text="Max CM change over time" Grid.Row="9" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <TextBox Name="tbMaxCMDifferencePercentage"  Grid.Row="9" Grid.Column="1" Text="{Binding MaxCMDifferencePercentage, Mode=TwoWay}"  Margin="0,0,0,10" Width="50"  HorizontalAlignment="Left"  VerticalAlignment="Center" BorderBrush="Black" Grid.ColumnSpan="2" />
+
+                                <TextBlock Text="Next actions each minute" Grid.Row="10" Grid.Column="0" Margin="0,5,0,20"  VerticalAlignment="Center" />
+                                <CheckBox Name="cbScanAllTimeframesEachMinute" IsChecked="{Binding ScanAllTimeframesEachMinute, Mode=TwoWay}" Grid.Row="10" Grid.Column="1" Margin="0,0,0,10" BorderBrush="Black" Grid.ColumnSpan="2">Enabled</CheckBox>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Bottom-UP">

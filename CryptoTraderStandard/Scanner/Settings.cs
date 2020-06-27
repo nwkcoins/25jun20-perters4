@@ -347,8 +347,12 @@ namespace CryptoTraderScanner
         [Key(113)]
         public string Time2ConvertDust2BNB { get; set; }
 
+        [Key(114)]
+        public decimal MaxCMDifferencePercentage { get; set; }
+
         public Settings()
         {
+            MaxCMDifferencePercentage = (Decimal)2.0;
             MinBNBAmount = (Decimal)1.0;
             AddBNBAmount = (Decimal)1.0;
             checkBNBMinutes = 0;

@@ -52,10 +52,11 @@ namespace CryptoTrader
         bool BarometerRefreshed_1Hr = false;
         bool BarometerRefreshed_4Hr = false;
         bool BarometerRefreshed_1D = false;
-        private BarometerCMD
-            _BarometerData1Hr = new BarometerCMD(),
-            _BarometerData4Hr = new BarometerCMD(),
-            _BarometerData1D = new BarometerCMD();
+        const int BAROMETERDEPTH = 3;
+        private BarometerCMD[]
+            _BarometerData1Hr = new BarometerCMD[BAROMETERDEPTH],
+            _BarometerData4Hr = new BarometerCMD[BAROMETERDEPTH],
+            _BarometerData1D = new BarometerCMD[BAROMETERDEPTH];
         private int BarometerPoints = -1;
         private string BarometerText = "";
         //private Decimal minBm2Autotrade = (Decimal)0.1;
@@ -136,6 +137,13 @@ namespace CryptoTrader
             slTf4hr.ValueChanged += SlTf4hr_ValueChanged;
             slTf1day.ValueChanged += SlTf1day_ValueChanged;
 
+            for (int i = 0; i < BAROMETERDEPTH; i++)
+            {
+                _BarometerData1Hr[i] = new BarometerCMD();
+                _BarometerData4Hr[i] = new BarometerCMD();
+                _BarometerData1D[i] = new BarometerCMD();
+            }
+
             System.Timers.Timer clock = new System.Timers.Timer();
             clock.Interval = 1000;
             clock.Elapsed += Clock_Elapsed;
@@ -213,7 +221,7 @@ namespace CryptoTrader
                 {
                     Settings = SettingsStore.Load();
                     //minBm2Autotrade = Settings.MinMC4Signal;
-                    AddLogMessage($"Clock_Elapsed --> 0 sec: start of new cycle --[{AppTitle}]---[Exp:{Settings.OperationEndDate.ToString("ddMMyy")}]-----------------MC1hr={(Settings.McCheckActive ? "Enabled/On (Min={minBm2AuotTrade})" : "Disabled/Off")}---");
+                    AddLogMessage($"Clock_Elapsed --> 0 sec: start of new cycle --[{AppTitle}]---[Exp:{Settings.OperationEndDate.ToString("ddMMyy")}]------{Settings.MaxRebuysBU}-----------MC1hr={(Settings.McCheckActive ? "Enabled/On (Min={minBm2AuotTrade})" : "Disabled/Off")}---");
                 }
 
                 //CanStartATimeFrame1stBuy = (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D); // valid 1 second after 3th Baromater becomes valid for this minute
@@ -224,25 +232,86 @@ namespace CryptoTrader
                     if (!BarometerRefreshed_1Hr && _scanner.IsBaroMeterCurrent(60))
                     {
                         if (Settings == null) Settings = SettingsStore.Load();
-                        _BarometerData1Hr = _scanner.GetBarometerData(60, Settings.DataViaOwnAPI, Settings.Exchange);
+
+                        // When in 1st cycles after boot OR only when BmPercentage compared to previous one < Settings max % then add current Barometer to its list
+                        BarometerCMD NewBarometer = _scanner.GetBarometerData(60, Settings.DataViaOwnAPI, Settings.Exchange);
+                        Decimal PrevDiff = Decimal.Zero;
+                        if (_BarometerData1Hr[1].PeriodeMinutes != 0)
+                        {
+                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData1Hr[1].BmPercentage) / _BarometerData1Hr[1].BmPercentage);
+                            //AddLogMessage($"Clock_Elapsed CM60: prevDiff={PrevDiff}");
+                        }
+                        if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
+                        {
+                            AddLogMessage($"Clock_Elapsed CM60: maxDiff={Settings.MaxCMDifferencePercentage} prev1Hr={_BarometerData1Hr[1].BmPercentage}, new={NewBarometer.BmPercentage} => diff=" + ((PrevDiff != Decimal.Zero) ? PrevDiff.ToString("0.000") : "n.a."));
+                            for (int i = (BAROMETERDEPTH - 1); i > 0; i--)
+                            {
+                                //AddLogMessage($"Clock_Elapsed CM60: Pre shift: i={i} {_BarometerData1Hr[i - 1].BmPercentage} -> {_BarometerData1Hr[i].BmPercentage}");
+                                _BarometerData1Hr[i] = _BarometerData1Hr[i - 1];
+                                //AddLogMessage($"Clock_Elapsed CM60: Aft shift: i={i} {_BarometerData1Hr[i].BmPercentage} =  {_BarometerData1Hr[i - 1].BmPercentage}");
+                            }
+                            _BarometerData1Hr[0] = NewBarometer;
+                            //AddLogMessage($"Clock_Elapsed CM60: 0 => {_BarometerData1Hr[0].BmPercentage}");
+                        }
+
                         BarometerRefreshed_1Hr = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 1Hr refreshed = {_BarometerData1Hr.BmPercentage} , Settings={Settings.MinMC4Signal} => BM {(_BarometerData1Hr.BmPercentage < Settings.MinMC4Signal ? "<" : ">=")} Settings; CheckActive={(Settings.McCheckActive ? "Yes" : "No")}");
+                        AddLogMessage($"Clock_Elapsed: Barometer 1Hr refreshed: 0={_BarometerData1Hr[0].BmPercentage} 1={_BarometerData1Hr[1].BmPercentage} 2={_BarometerData1Hr[2].BmPercentage}, Settings={Settings.MinMC4Signal} => BM {(_BarometerData1Hr[0].BmPercentage < Settings.MinMC4Signal ? "<" : ">=")} Settings; CheckActive={(Settings.McCheckActive ? "Yes" : "No")}");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile(); // only once per minute, but needs in every check-block last one triggers..
                     }
                     if (!BarometerRefreshed_4Hr && _scanner.IsBaroMeterCurrent(240))
                     {
                         if (Settings == null) Settings = SettingsStore.Load();
-                        _BarometerData4Hr = _scanner.GetBarometerData(240, Settings.DataViaOwnAPI, Settings.Exchange);
+
+                        // When in 1st cycles after boot OR only when BmPercentage compared to previous one < Settings max % then add current Barometer to its list
+                        BarometerCMD NewBarometer = _scanner.GetBarometerData(240, Settings.DataViaOwnAPI, Settings.Exchange);
+                        Decimal PrevDiff = Decimal.Zero;
+                        if (_BarometerData4Hr[1].PeriodeMinutes != 0)
+                        {
+                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData4Hr[1].BmPercentage) / _BarometerData4Hr[1].BmPercentage);
+                            //AddLogMessage($"Clock_Elapsed CM240: prevDiff={PrevDiff}");
+                        }
+                        if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
+                        {
+                            AddLogMessage($"Clock_Elapsed CM4Hr: maxDiff={Settings.MaxCMDifferencePercentage} prev4Hr={_BarometerData4Hr[1].BmPercentage}, new={NewBarometer.BmPercentage} => diff="+ ((PrevDiff != Decimal.Zero) ? PrevDiff.ToString("0.000") : "n.a."));
+                            for (int i = (BAROMETERDEPTH - 1); i > 0; i--)
+                            {
+                                //AddLogMessage($"Clock_Elapsed CM240: Pre shift: i={i} {_BarometerData4Hr[i - 1].BmPercentage} -> {_BarometerData4Hr[i].BmPercentage}");
+                                _BarometerData4Hr[i] = _BarometerData4Hr[i - 1];
+                                //AddLogMessage($"Clock_Elapsed CM240: Aft shift: i={i} {_BarometerData4Hr[i].BmPercentage} =  {_BarometerData4Hr[i - 1].BmPercentage}");
+                            }
+                            _BarometerData4Hr[0] = NewBarometer;
+                            //AddLogMessage($"Clock_Elapsed CM240: 0 => {_BarometerData4Hr[0].BmPercentage}");
+                        }
                         BarometerRefreshed_4Hr = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 4Hr refreshed = {_BarometerData4Hr.BmPercentage} , Settings={Settings.MinMC4Hr4Signal} => BM {(_BarometerData4Hr.BmPercentage < Settings.MinMC4Hr4Signal ? "<" : ">=")} Settings");
+                        AddLogMessage($"Clock_Elapsed: Barometer 4Hr refreshed: 0={_BarometerData4Hr[0].BmPercentage} 1={_BarometerData4Hr[1].BmPercentage} 2={_BarometerData4Hr[2].BmPercentage}, Settings={Settings.MinMC4Hr4Signal} => BM {(_BarometerData4Hr[0].BmPercentage < Settings.MinMC4Hr4Signal ? "<" : ">=")} Settings");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile();
                     }
                     if (!BarometerRefreshed_1D && _scanner.IsBaroMeterCurrent(1440))
                     {
                         if (Settings == null) Settings = SettingsStore.Load();
-                        _BarometerData1D = _scanner.GetBarometerData(1440, Settings.DataViaOwnAPI, Settings.Exchange);
+
+                        // When in 1st cycles after boot OR only when BmPercentage compared to previous one < Settings max % then add current Barometer to its list
+                        BarometerCMD NewBarometer = _scanner.GetBarometerData(1440, Settings.DataViaOwnAPI, Settings.Exchange);
+                        Decimal PrevDiff = Decimal.Zero;
+                        if (_BarometerData1D[1].PeriodeMinutes != 0)
+                        {
+                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData1D[1].BmPercentage) / _BarometerData1D[1].BmPercentage);
+                            //AddLogMessage($"Clock_Elapsed CM1440: prevDiff={PrevDiff}");
+                        }
+                        if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
+                        {
+                            AddLogMessage($"Clock_Elapsed CM1D: maxDiff={Settings.MaxCMDifferencePercentage} prev1D={_BarometerData1D[1].BmPercentage}, new={NewBarometer.BmPercentage} => diff=" + ((PrevDiff != Decimal.Zero) ? PrevDiff.ToString("0.000") : "n.a."));
+                            for (int i = (BAROMETERDEPTH - 1); i > 0; i--)
+                            {
+                                //AddLogMessage($"Clock_Elapsed CM1440: Pre shift: i={i} {_BarometerData1D[i - 1].BmPercentage} -> {_BarometerData1D[i].BmPercentage}");
+                                _BarometerData1D[i] = _BarometerData1D[i - 1];
+                                //AddLogMessage($"Clock_Elapsed CM1440: Aft shift: i={i} {_BarometerData1D[i].BmPercentage} =  {_BarometerData1D[i - 1].BmPercentage}");
+                            }
+                            _BarometerData1D[0] = NewBarometer;
+                            //AddLogMessage($"Clock_Elapsed CM1440: 0 => {_BarometerData1D[0].BmPercentage}");
+                        }
                         BarometerRefreshed_1D = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 1D refreshed => {_BarometerData1D.BmPercentage}");
+                        AddLogMessage($"Clock_Elapsed: Barometer 1D refreshed: 0={_BarometerData1D[0].BmPercentage} 1={_BarometerData1D[1].BmPercentage} 2={_BarometerData1D[2].BmPercentage}");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile();
                     }
 
@@ -279,16 +348,16 @@ namespace CryptoTrader
                         BarometerPoints = 0;
                         if (!String.IsNullOrEmpty(BarometerText))
                         {
-                            if (_BarometerData1D.BmPercentage > 0) BarometerPoints += 1;
-                            if (_BarometerData4Hr.BmPercentage > 0) BarometerPoints += 2;
-                            if (_BarometerData1Hr.BmPercentage > 0) BarometerPoints += 4;
-                            if (_BarometerData1Hr.BmPercentage == 0) BarometerPoints += 2;
+                            if (_BarometerData1D[0].BmPercentage > 0) BarometerPoints += 1;
+                            if (_BarometerData4Hr[0].BmPercentage > 0) BarometerPoints += 2;
+                            if (_BarometerData1Hr[0].BmPercentage > 0) BarometerPoints += 4;
+                            if (_BarometerData1Hr[0].BmPercentage == 0) BarometerPoints += 2;
                         }
-                        BarometerText = ((_BarometerData1D != null && _BarometerData4Hr != null && _BarometerData1Hr != null)
-                            ? "MC " + BarometerPoints.ToString()  //((_BarometerData1Hr.BmPercentage > minBm2Autotrade) ? "**" : "..")
-                                + " (1d,4h,1h): " + _BarometerData1D.BmPercentage.ToString("f2") + "%"
-                                + ", " + _BarometerData4Hr.BmPercentage.ToString("f2") + "%"
-                                + ", " + _BarometerData1Hr.BmPercentage.ToString("f2") + "%"
+                        BarometerText = ((_BarometerData1D[0] != null && _BarometerData4Hr[0] != null && _BarometerData1Hr[0] != null)
+                            ? "MC " + BarometerPoints.ToString()  //((_BarometerData1Hr[0].BmPercentage > minBm2Autotrade) ? "**" : "..")
+                                + " (1d,4h,1h): " + _BarometerData1D[0].BmPercentage.ToString("f2") + "%"
+                                + ", " + _BarometerData4Hr[0].BmPercentage.ToString("f2") + "%"
+                                + ", " + _BarometerData1Hr[0].BmPercentage.ToString("f2") + "%"
                             : "");
 
                         CanStartATimeFrame1stBuy = (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D); // valid 1 second after 3th Baromater becomes valid for this minute
@@ -1185,10 +1254,10 @@ namespace CryptoTrader
 
                         if (String.IsNullOrEmpty(Message))
                         {
-                            AddLogMessage($"FindNewSignalsToBuySell: Find new signals for 1st buy {TimeframeName} with {UsedMarketPairs.Count} symbols, APIGetNrOfCandles={APIGetNrOfCandles}, BM1Hr={Math.Round((_BarometerData1Hr.BmPercentage),2)}, BM4Hr={Math.Round((_BarometerData4Hr.BmPercentage),2)}, BM1D={Math.Round((_BarometerData1D.BmPercentage),2)} ...");
+                            AddLogMessage($"FindNewSignalsToBuySell: Find new signals for 1st buy {TimeframeName} with {UsedMarketPairs.Count} symbols, APIGetNrOfCandles={APIGetNrOfCandles}, BM1Hr={Math.Round((_BarometerData1Hr[0].BmPercentage),2)}, BM4Hr={Math.Round((_BarometerData4Hr[0].BmPercentage),2)}, BM1D={Math.Round((_BarometerData1D[0].BmPercentage),2)} ...");
 
                             // Check for all Marketpairs the buy strategies (retrieve candles)
-                            List<SignalsTBL> AllSignals = _scanner.FindNewSignalsToBuySellAsync(UsedMarketPairs, TimeframeMinutes, TimeframeName, APIGetNrOfCandles, _BarometerData1Hr.BmPercentage, _BarometerData4Hr.BmPercentage, _BarometerData1D.BmPercentage, LogInvalidSignals);
+                            List<SignalsTBL> AllSignals = _scanner.FindNewSignalsToBuySellAsync(UsedMarketPairs, TimeframeMinutes, TimeframeName, APIGetNrOfCandles, _BarometerData1Hr[0].BmPercentage, _BarometerData4Hr[0].BmPercentage, _BarometerData1D[0].BmPercentage, LogInvalidSignals);
 
                             AddLogMessage($"FindNewSignalsToBuySell: Find new signals for 1st buy {TimeframeName} found {AllSignals.Count} Signals, with {AllSignals.FindAll(s => (s.TimeframeMinutes == TimeframeMinutes)).Count} this timeframe ===> {AllSignals.FindAll(s => (s.TimeframeMinutes == TimeframeMinutes && s.Valid)).Count} Valid ");
 
@@ -1502,7 +1571,7 @@ namespace CryptoTrader
                                         AddLogMessage($"CheckSignalsNextActions InProcessAtExch id={Signal.Id} FBId={Signal.FirstBuyId} ExchangeId={Signal.ExchangeId} {Signal.SignalState.ToString()} {Signal.TimeframeName} {Signal.Symbol}: {Signal.SignalAction.ToString()} go scanning...");
                                         if (!UpdateSignal)
                                         {
-                                            SignalsTBL NewSignal = _scanner.ProcessSignalAfterFilled(Signal, Settings.AutocloseAfterCandles, Settings.AutocloseAfterHr, _BarometerData1Hr.BmPercentage, _BarometerData4Hr.BmPercentage, _BarometerData1D.BmPercentage);
+                                            SignalsTBL NewSignal = _scanner.ProcessSignalAfterFilled(Signal, Settings.AutocloseAfterCandles, Settings.AutocloseAfterHr, _BarometerData1Hr[0].BmPercentage, _BarometerData4Hr[0].BmPercentage, _BarometerData1D[0].BmPercentage);
                                             if (NewSignal.Valid)
                                             {
                                                 AddLogMessage($"CheckSignalsNextActions InProcessAtExch id={NewSignal.Id} {NewSignal.SignalState.ToString()} {NewSignal.TimeframeName} {NewSignal.Symbol}: {NewSignal.SignalAction.ToString()} Message={NewSignal.Message}");
@@ -2320,7 +2389,7 @@ namespace CryptoTrader
             try
             {
                 Settings Settings = SettingsStore.Load();
-                if (Settings.BmValuesToFile && (_BarometerData1D.PeriodeMinutes != 0 || _BarometerData4Hr.PeriodeMinutes != 0 || _BarometerData1Hr.PeriodeMinutes != 0)
+                if (Settings.BmValuesToFile && (_BarometerData1D[0].PeriodeMinutes != 0 || _BarometerData4Hr[0].PeriodeMinutes != 0 || _BarometerData1Hr[0].PeriodeMinutes != 0)
                     && (!Settings.BmValuesToFileWhenTfRun
                       || Settings.BmValuesToFileWhenTfRun && (thread1min.running || thread3min.running || thread5min.running || thread15min.running || thread30min.running || thread1hr.running || thread4hr.running || thread1day.running)))
                 {
@@ -2328,7 +2397,7 @@ namespace CryptoTrader
                     string Headerline = "";
                     if (!File.Exists(Filename))
                     {
-                        Headerline = _BarometerData1D.ToCsvHeader("1D") + ";" + _BarometerData4Hr.ToCsvHeader("4H") + ";" + _BarometerData1Hr.ToCsvHeader("1H") + ";\"Timeframes Run\"\r\n";
+                        Headerline = _BarometerData1D[0].ToCsvHeader("1D") + ";" + _BarometerData4Hr[0].ToCsvHeader("4H") + ";" + _BarometerData1Hr[0].ToCsvHeader("1H") + ";\"Timeframes Run\"\r\n";
                     }
 
                     if (swBMCSVFile == null || Filename != ((FileStream)(swBMCSVFile.BaseStream)).Name)
@@ -2338,7 +2407,7 @@ namespace CryptoTrader
                     }
 
                     //niet meer: File.AppendAllLines(Filename, new string[] { 
-                    swBMCSVFile.WriteLine(Headerline + _BarometerData1D.ToCsvData() + ";" + _BarometerData4Hr.ToCsvData() + ";" + _BarometerData1Hr.ToCsvData() + ";\""
+                    swBMCSVFile.WriteLine(Headerline + _BarometerData1D[0].ToCsvData() + ";" + _BarometerData4Hr[0].ToCsvData() + ";" + _BarometerData1Hr[0].ToCsvData() + ";\""
                         + (thread1min.running ? "1m " : "")
                         + (thread3min.running ? "3m " : "")
                         + (thread5min.running ? "5m " : "")
