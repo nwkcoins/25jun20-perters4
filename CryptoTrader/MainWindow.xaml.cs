@@ -238,7 +238,7 @@ namespace CryptoTrader
                         Decimal PrevDiff = Decimal.Zero;
                         if (_BarometerData1Hr[1].PeriodeMinutes != 0)
                         {
-                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData1Hr[1].BmPercentage) / _BarometerData1Hr[1].BmPercentage);
+                            PrevDiff = Math.Abs((_BarometerData1Hr[1].BmPercentage != 0) ? (NewBarometer.BmPercentage - _BarometerData1Hr[1].BmPercentage) / _BarometerData1Hr[1].BmPercentage : NewBarometer.BmPercentage);
                             //AddLogMessage($"Clock_Elapsed CM60: prevDiff={PrevDiff}");
                         }
                         if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
@@ -255,7 +255,7 @@ namespace CryptoTrader
                         }
 
                         BarometerRefreshed_1Hr = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 1Hr refreshed: 0={_BarometerData1Hr[0].BmPercentage} 1={_BarometerData1Hr[1].BmPercentage} 2={_BarometerData1Hr[2].BmPercentage}, Settings={Settings.MinMC4Signal} => BM {(_BarometerData1Hr[0].BmPercentage < Settings.MinMC4Signal ? "<" : ">=")} Settings; CheckActive={(Settings.McCheckActive ? "Yes" : "No")}");
+                        AddLogMessage($"Clock_Elapsed: Barometer 1Hr refreshed: Present={_BarometerData1Hr[0].BmPercentage} Prev1={_BarometerData1Hr[1].BmPercentage} prev2={_BarometerData1Hr[2].BmPercentage}, Settings={Settings.MinMC4Signal} => BM {(_BarometerData1Hr[0].BmPercentage < Settings.MinMC4Signal ? "<" : ">=")} Settings; CheckActive={(Settings.McCheckActive ? "Yes" : "No")}");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile(); // only once per minute, but needs in every check-block last one triggers..
                     }
                     if (!BarometerRefreshed_4Hr && _scanner.IsBaroMeterCurrent(240))
@@ -267,7 +267,7 @@ namespace CryptoTrader
                         Decimal PrevDiff = Decimal.Zero;
                         if (_BarometerData4Hr[1].PeriodeMinutes != 0)
                         {
-                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData4Hr[1].BmPercentage) / _BarometerData4Hr[1].BmPercentage);
+                            PrevDiff = Math.Abs((_BarometerData4Hr[1].BmPercentage != 0) ? (NewBarometer.BmPercentage - _BarometerData4Hr[1].BmPercentage) / _BarometerData4Hr[1].BmPercentage : NewBarometer.BmPercentage);
                             //AddLogMessage($"Clock_Elapsed CM240: prevDiff={PrevDiff}");
                         }
                         if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
@@ -283,7 +283,7 @@ namespace CryptoTrader
                             //AddLogMessage($"Clock_Elapsed CM240: 0 => {_BarometerData4Hr[0].BmPercentage}");
                         }
                         BarometerRefreshed_4Hr = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 4Hr refreshed: 0={_BarometerData4Hr[0].BmPercentage} 1={_BarometerData4Hr[1].BmPercentage} 2={_BarometerData4Hr[2].BmPercentage}, Settings={Settings.MinMC4Hr4Signal} => BM {(_BarometerData4Hr[0].BmPercentage < Settings.MinMC4Hr4Signal ? "<" : ">=")} Settings");
+                        AddLogMessage($"Clock_Elapsed: Barometer 4Hr refreshed: Present={_BarometerData4Hr[0].BmPercentage} Prev1={_BarometerData4Hr[1].BmPercentage} Prev2={_BarometerData4Hr[2].BmPercentage}, Settings={Settings.MinMC4Hr4Signal} => BM {(_BarometerData4Hr[0].BmPercentage < Settings.MinMC4Hr4Signal ? "<" : ">=")} Settings");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile();
                     }
                     if (!BarometerRefreshed_1D && _scanner.IsBaroMeterCurrent(1440))
@@ -295,7 +295,7 @@ namespace CryptoTrader
                         Decimal PrevDiff = Decimal.Zero;
                         if (_BarometerData1D[1].PeriodeMinutes != 0)
                         {
-                            PrevDiff = Math.Abs((NewBarometer.BmPercentage - _BarometerData1D[1].BmPercentage) / _BarometerData1D[1].BmPercentage);
+                            PrevDiff = Math.Abs((_BarometerData1D[1].BmPercentage != 0) ? (NewBarometer.BmPercentage - _BarometerData1D[1].BmPercentage) / _BarometerData1D[1].BmPercentage : NewBarometer.BmPercentage);
                             //AddLogMessage($"Clock_Elapsed CM1440: prevDiff={PrevDiff}");
                         }
                         if (PrevDiff == Decimal.Zero || (PrevDiff != Decimal.Zero && PrevDiff < Settings.MaxCMDifferencePercentage))
@@ -311,7 +311,7 @@ namespace CryptoTrader
                             //AddLogMessage($"Clock_Elapsed CM1440: 0 => {_BarometerData1D[0].BmPercentage}");
                         }
                         BarometerRefreshed_1D = true;
-                        AddLogMessage($"Clock_Elapsed: Barometer 1D refreshed: 0={_BarometerData1D[0].BmPercentage} 1={_BarometerData1D[1].BmPercentage} 2={_BarometerData1D[2].BmPercentage}");
+                        AddLogMessage($"Clock_Elapsed: Barometer 1D refreshed: Present={_BarometerData1D[0].BmPercentage} Prev1={_BarometerData1D[1].BmPercentage} Prev2={_BarometerData1D[2].BmPercentage}");
                         if (BarometerRefreshed_1Hr && BarometerRefreshed_4Hr && BarometerRefreshed_1D) WriteBmToCsvFile();
                     }
 
